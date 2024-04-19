@@ -32,7 +32,8 @@ jobs:
             echo "Build directory 'dist' does not exist."
             exit 1
           fi
-        shell: bash -e 
+        shell: bash 
 
       - name: Push Changes
         run: git push -f origin HEAD:build
+        shell: bash 
