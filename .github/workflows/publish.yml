@@ -25,15 +25,18 @@ jobs:
 
       - name: Add and Commit Build Artifacts
         run: |
+          set -eo pipefail
           if [ -d dist ]; then
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
             git add dist -f
             git commit -m "Add build artifacts from GitHub Actions"
           else
             echo "Build directory 'dist' does not exist."
             exit 1
           fi
-        shell: bash 
+        shell: bash
 
       - name: Push Changes
         run: git push -f origin HEAD:build
-        shell: bash 
+        shell: bash
