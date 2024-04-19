@@ -27,8 +27,8 @@ jobs:
       - name: Push Build to Branch
         uses: s0/git-publish-subdir-action@develop
         with:
-          repo: self  # Specify this to use the same repository
-          branch: build  # Push the built files to the 'build' branch
-          folder: dist  # Directory to take built assets from
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Auth token
-          message: "Build: ({sha}) {msg}"  # Commit message format
+          repo: self
+          branch: build
+          folder: dist
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: "Build: ${{ github.sha }} Auto-update"
