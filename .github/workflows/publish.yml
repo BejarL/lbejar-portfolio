@@ -33,10 +33,14 @@ jobs:
             exit 1
           fi
 
-      - name: Push Build to Branch
+      - name: Add and Commit Build Artifacts
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add dist -f
-          git commit -m "Add build artifacts"
-          git push -f https://${{ secrets.CUSTOM_GITHUB_TOKEN }}@github.com/BejarL/lbejar-portfolio.git build:build
+          pwd  # Print working directory to debug path issues
+          ls -alh  # List all files to debug file presence
+          if [ -d dist ]; then
+            git add dist -f
+            git commit -m "Add build artifacts"
+          else
+            echo "Build directory 'dist' does not exist."
+            exit 1  # Fails the job if no 'dist' directory
+          fi
