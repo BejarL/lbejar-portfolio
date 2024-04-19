@@ -39,5 +39,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add dist -f
           git commit -m "Add build artifacts"
-          git subtree split --prefix dist -b build
-          git push -f origin build:build
+          git push -f https://${{ secrets.CUSTOM_GITHUB_TOKEN }}@github.com/BejarL/lbejar-portfolio.git build:build
