@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -15,32 +15,27 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '16.x'  # Adjust Node.js version as needed
 
       - name: Install Dependencies
         run: npm install
 
       - name: Build Project
         run: npm run build
-        continue-on-error: false # This will fail the job if the build fails
 
-      - name: Check for dist directory
+      - name: Configure Git
         run: |
-          if [ -d dist ]; then
-            echo "'dist' directory exists."
-          else
-            echo "'dist' directory does not exist. Check build configuration."
-            exit 1
-          fi
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
 
       - name: Add and Commit Build Artifacts
         run: |
-          pwd  # Print working directory to debug path issues
-          ls -alh  # List all files to debug file presence
           if [ -d dist ]; then
             git add dist -f
-            git commit -m "Add build artifacts"
+            git commit -m "Add build artifacts from GitHub Actions"
           else
             echo "Build directory 'dist' does not exist."
             exit 1  # Fails the job if no 'dist' directory
-          fi
+
+      - name: Push Build to Branch
+        run: git push -f origin HEAD:build
