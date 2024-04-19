@@ -25,10 +25,8 @@ jobs:
         run: npm run build  # Build your project
 
       - name: Push Build to Branch
-        uses: s0/git-publish-subdir-action@develop
-        with:
-          REPO: self
-          BRANCH: build
-          FOLDER: dist
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MESSAGE: "Build: ${{ github.sha }} Auto-update"
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git subtree split --prefix dist -b build
+          git push -f origin build:build
